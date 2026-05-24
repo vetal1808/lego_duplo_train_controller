@@ -23,7 +23,7 @@ CHARACTERISTIC_UUID = "00001624-1212-efde-1623-785feabcd123"
 
 PORT_MOTOR = 0x32
 PORT_COLOR = 0x33
-PORT_ACCEL = 0x35
+PORT_BATTERY = 0x35
 PORT_SPEED_SENSOR = 0x36
 
 TAG_COLORS = {
@@ -73,7 +73,8 @@ class DuploTrain:
         #await self.send(bytes([0x0A, 0x00, 0x41, PORT_ACCEL, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
         # Subcribe to speed sensor
         await self.send(bytes([0x0A, 0x00, 0x41, PORT_SPEED_SENSOR, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
-
+        # Subscribe to battery level
+        await self.send(bytes([0x0A, 0x00, 0x41, PORT_BATTERY, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
         return True
 
     def _on_notify(self, sender, data):
@@ -89,13 +90,14 @@ class DuploTrain:
                 self.color = name
                 print(f"🎨 Tile color: {name}")
 
-            elif port == PORT_ACCEL and len(data) >= 6:
-                value = struct.unpack_from("<H", data, 4)[0]
-                self.accel = value
-
             elif port == PORT_SPEED_SENSOR and len(data) >= 5:
                 speed_value = data[4]
+                #TODO add speed convertion to signed value
                 print(f"🏃 Speedometer: {speed_value} (0x{speed_value:02X})")
+
+            elif port == PORT_BATTERY and len(data) >= 6:
+                voltage_mv = struct.unpack_from("<H", data, 4)[0]
+                print(f"🔋 Battery: {voltage_mv} mV ")
 
     async def send(self, data: bytes):
         if self.client and self.client.is_connected:
