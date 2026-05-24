@@ -10,17 +10,32 @@ import struct
 from bleak import BleakScanner, BleakClient
 
 CHARACTERISTIC_UUID = "00001624-1212-efde-1623-785feabcd123"
+#0F 00 04 33 01 5B 00 01 00 00 00 01 00 00 00 
+#0F 00 04 35 01 14 00 01 00 00 00 01 00 00 00 
+#0F 00 04 36 01 2C 00 01 00 00 00 01 00 00 00 
+#0F 00 04 34 01 5A 00 01 00 00 00 01 00 00 00 
+
+#0F 00 04 32 01 29 00 01 00 00 00 01 00 00 00 
+#0F 00 04 33 01 5B 00 01 00 00 00 01 00 00 00 
+#0F 00 04 35 01 14 00 01 00 00 00 01 00 00 00 
+#0F 00 04 36 01 2C 00 01 00 00 00 01 00 00 00 
+#0F 00 04 34 01 5A 00 01 00 00 00 01 00 00 00 
 
 PORT_MOTOR = 0x32
 PORT_COLOR = 0x33
 PORT_ACCEL = 0x35
+PORT_SPEED_SENSOR = 0x36
 
 TAG_COLORS = {
     0x01: "Yellow",
     0x02: "Green",
     0x03: "Blue",
     0x05: "Red",
-    0x0A: "White"
+    0x0A: "White",
+#manualy identified tags
+    0x77: "Green (tree)", 
+    0x1C: "Green (spark)",
+    0x92: "Pink (home)"
 }
 
 class DuploTrain:
@@ -55,7 +70,9 @@ class DuploTrain:
         # Subscribe to color sensor
         await self.send(bytes([0x0A, 0x00, 0x41, PORT_COLOR, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
         # Subscribe to accelerometer
-        await self.send(bytes([0x0A, 0x00, 0x41, PORT_ACCEL, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
+        #await self.send(bytes([0x0A, 0x00, 0x41, PORT_ACCEL, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
+        # Subcribe to speed sensor
+        await self.send(bytes([0x0A, 0x00, 0x41, PORT_SPEED_SENSOR, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]))
 
         return True
 
@@ -75,6 +92,10 @@ class DuploTrain:
             elif port == PORT_ACCEL and len(data) >= 6:
                 value = struct.unpack_from("<H", data, 4)[0]
                 self.accel = value
+
+            elif port == PORT_SPEED_SENSOR and len(data) >= 5:
+                speed_value = data[4]
+                print(f"🏃 Speedometer: {speed_value} (0x{speed_value:02X})")
 
     async def send(self, data: bytes):
         if self.client and self.client.is_connected:
