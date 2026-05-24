@@ -5,7 +5,6 @@ Requirements: pip install bleak
 """
 
 import asyncio
-import cmd
 import sys
 import struct
 from time import time
@@ -94,9 +93,8 @@ class DuploTrain:
                 print(f"🎨 Tile color: {name}")
 
             elif port == PORT_SPEED_SENSOR and len(data) >= 5:
-                speed_value = data[4]
-                #TODO add speed convertion to signed value
-                print(f"🏃 Speedometer: {speed_value} (0x{speed_value:02X})")
+                speed_value = struct.unpack_from("<b", data, 4)[0]
+                print(f"🏃 Speedometer: {speed_value}")
 
             elif port == PORT_BATTERY and len(data) >= 6:
                 voltage_mv = struct.unpack_from("<H", data, 4)[0]
@@ -108,11 +106,11 @@ class DuploTrain:
 
     async def do_horn(self):
         #0B 00 81 34 11 51 01 07 01 00 00
-        cmd = bytes([0x0B, 0x00, 0x81, 0x34, 0x11, 0x51, 0x01, 0x07, 0x01, 0x00, 0x00])
-        await self.send(cmd)
+        data = bytes([0x0B, 0x00, 0x81, 0x34, 0x11, 0x51, 0x01, 0x07, 0x01, 0x00, 0x00])
+        await self.send(data)
     async def set_light_color(self, color_code):
-        cmd = bytes([0x0B, 0x00, 0x81, 0x34, 0x11, 0x51, 0x01, 0x04, 0x01, color_code, 0x00])
-        await self.send(cmd)
+        data = bytes([0x0B, 0x00, 0x81, 0x34, 0x11, 0x51, 0x01, 0x04, 0x01, color_code, 0x00])
+        await self.send(data)
 
     async def next_light_color(self):
         """Cycle through light colors (0x00 to 0xFF)"""
