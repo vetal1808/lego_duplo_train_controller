@@ -1,10 +1,13 @@
 /*
- * ESP32-C3 Test Firmware for Button & Potentiometer Control
+ * ESP32 Test Firmware for Button & Potentiometer Control
  * 
  * Hardware Configuration:
- * - Digital Inputs: GPIO 0, 1, 2, 3 (Buttons 1-4)
- * - Analog Input: GPIO 4 (Potentiometer)
- * - Digital Output: GPIO 5 (Power Relay)
+ * - GND Source Pins (outputs LOW): GPIO 13, 2, 4, 17
+ * - Button Inputs (pull-down): GPIO 15, 0, 16, 5 (Buttons 1-4)
+ * - Potentiometer GND: GPIO 32
+ * - Potentiometer VCC: GPIO 34
+ * - Potentiometer ADC: GPIO 35
+ * - Power Relay: GPIO 23
  * 
  * Features:
  * - Detects button presses and logs to console
@@ -13,10 +16,19 @@
  * - USB Serial output for debugging
  */
 
-// Pin Configuration
-const int BUTTON_PINS[4] = {0, 1, 2, 3};          // GPIO pins for 4 buttons
-const int POTENTIOMETER_PIN = 4;                   // GPIO pin for analog potentiometer
-const int RELAY_PIN = 5;                           // GPIO pin for power relay
+// Pin Configuration - GND Source Pins (outputs LOW)
+const int GND_PINS[4] = {13, 2, 4, 17};            // GPIO pins configured as GND source (output LOW)
+
+// Pin Configuration - Buttons
+const int BUTTON_PINS[4] = {15, 0, 16, 5};         // GPIO pins for 4 buttons (pull-down)
+
+// Pin Configuration - Potentiometer
+const int POTENTIOMETER_GND_PIN = 25;              // GPIO pin for potentiometer GND
+const int POTENTIOMETER_VCC_PIN = 32;              // GPIO pin for potentiometer VCC
+const int POTENTIOMETER_PIN = 33;                  // GPIO pin for analog potentiometer input
+
+// Pin Configuration - Relay
+const int RELAY_PIN = 23;                          // GPIO pin for power relay
 
 // Timing Configuration
 const unsigned long INACTIVITY_TIMEOUT = 5 * 60 * 1000;  // 5 minutes in milliseconds
@@ -38,29 +50,49 @@ void setup() {
   delay(2000);  // Wait for serial connection to stabilize
   
   Serial.println("\n\n================================");
-  Serial.println("ESP32-C3 Test Firmware Started");
+  Serial.println("ESP32 Test Firmware Started");
   Serial.println("================================\n");
   
-  // Initialize button pins as inputs
+  // Initialize GND source pins as outputs (LOW)
   for (int i = 0; i < 4; i++) {
-    pinMode(BUTTON_PINS[i], INPUT);
-    Serial.printf("Button %d configured on GPIO %d\n", i + 1, BUTTON_PINS[i]);
+    pinMode(GND_PINS[i], OUTPUT);
+    digitalWrite(GND_PINS[i], LOW);
+    Serial.printf("GND Source pin configured on GPIO %d\n", GND_PINS[i]);
   }
+  Serial.println();
   
-  // Initialize potentiometer pin as input
+  // Initialize button pins as inputs with pull-down resistors
+  for (int i = 0; i < 4; i++) {
+    pinMode(BUTTON_PINS[i], INPUT_PULLUP);
+    Serial.printf("Button %d configured on GPIO %d (pull-down)\n", i + 1, BUTTON_PINS[i]);
+  }
+  Serial.println();
+  
+  // Initialize potentiometer power pins
+  pinMode(POTENTIOMETER_GND_PIN, OUTPUT);
+  digitalWrite(POTENTIOMETER_GND_PIN, LOW);
+  Serial.printf("Potentiometer GND configured on GPIO %d\n", POTENTIOMETER_GND_PIN);
+  
+  pinMode(POTENTIOMETER_VCC_PIN, OUTPUT);
+  digitalWrite(POTENTIOMETER_VCC_PIN, HIGH);
+  Serial.printf("Potentiometer VCC configured on GPIO %d\n", POTENTIOMETER_VCC_PIN);
+  
+  // Initialize potentiometer input pin
   pinMode(POTENTIOMETER_PIN, INPUT);
-  Serial.printf("Potentiometer configured on GPIO %d\n", POTENTIOMETER_PIN);
+  Serial.printf("Potentiometer input configured on GPIO %d\n", POTENTIOMETER_PIN);
+  Serial.println();
   
   // Initialize relay pin as output
   pinMode(RELAY_PIN, OUTPUT);
   digitalWrite(RELAY_PIN, HIGH);  // Relay active (HIGH = ON)
   Serial.printf("Relay configured on GPIO %d (ACTIVE)\n", RELAY_PIN);
+  Serial.println();
   
   // Initialize last event time
   lastEventTime = millis();
   lastPotentiometerValue = analogRead(POTENTIOMETER_PIN);
   
-  Serial.println("\nSystem ready! Waiting for events...\n");
+  Serial.println("System ready! Waiting for events...\n");
 }
 
 void loop() {
@@ -84,12 +116,12 @@ void checkButtons() {
   for (int i = 0; i < 4; i++) {
     buttonStates[i] = digitalRead(BUTTON_PINS[i]);
     
-    // Detect button press (transition from LOW to HIGH)
-    if (buttonStates[i] == HIGH && prevButtonStates[i] == LOW) {
+    // Detect button press (transition from LOW to HIGH with pull-down)
+    if (buttonStates[i] == LOW && prevButtonStates[i] == HIGH) {
       delay(DEBOUNCE_DELAY);  // Debounce
       
       // Confirm press after debounce
-      if (digitalRead(BUTTON_PINS[i]) == HIGH) {
+      if (digitalRead(BUTTON_PINS[i]) == LOW) {
         onButtonPress(i + 1);
         recordEvent();
       }
