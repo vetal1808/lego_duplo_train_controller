@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "ESP32-C3",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/ESP32-C3_Test_Firmware",
+                "C:\\Users\\vetal\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\esp32\\2.0.18-arduino.5\\cores\\esp32",
+                "C:\\Users\\vetal\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\esp32\\2.0.18-arduino.5\\variants\\*",
+                "C:\\Users\\vetal\\Documents\\Arduino\\libraries\\**"
+            ],
+            "defines": [
+                "ARDUINO=10819",
+                "ESP32",
+                "ARDUINO_ESP32_DEV"
+            ],
+            "compilerPath": "C:/Users/vetal/AppData/Local/Arduino15/packages/esp32/tools/xtensa-esp32-elf-gcc/*/bin/xtensa-esp32-elf-g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
