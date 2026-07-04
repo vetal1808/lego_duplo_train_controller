@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-class Button {
+class Button
+{
 private:
     int pin_name;
     uint8_t pin_state_sequence;
