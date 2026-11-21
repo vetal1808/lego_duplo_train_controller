@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 690" width="980" height="690" font-family="Helvetica, Arial, sans-serif">
+  <rect width="980" height="690" fill="#ffffff"/>
+
+  <text x="30" y="34" font-size="22" font-weight="bold" fill="#111827">DUPLO train remote: wiring</text>
+
+  <!-- Board -->
+  <rect x="200" y="50" width="230" height="520" rx="12" fill="#1f2937"/>
+  <text x="315" y="82" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">LOLIN32 Lite</text>
+  <text x="315" y="102" font-size="13" fill="#9ca3af" text-anchor="middle">ESP32</text>
+
+  <!-- Onboard LED -->
+  <circle cx="236" cy="290" r="8" fill="#3b82f6"/>
+  <text x="252" y="286" font-size="12" fill="#e5e7eb">status LED</text>
+  <text x="252" y="301" font-size="12" fill="#9ca3af">GPIO 22 (onboard)</text>
+
+  <!-- Left side: USB and battery -->
+  <rect x="194" y="174" width="12" height="22" fill="#9ca3af"/>
+  <text x="214" y="190" font-size="12" fill="#e5e7eb">micro-USB</text>
+  <text x="184" y="182" font-size="12" fill="#374151" text-anchor="end">USB: flashing and</text>
+  <text x="184" y="198" font-size="12" fill="#374151" text-anchor="end">UART log, 115200</text>
+
+  <rect x="194" y="444" width="12" height="12" fill="#d4a017"/>
+  <rect x="194" y="474" width="12" height="12" fill="#d4a017"/>
+  <text x="214" y="455" font-size="12" fill="#e5e7eb">BAT +</text>
+  <text x="214" y="485" font-size="12" fill="#e5e7eb">BAT −</text>
+  <text x="214" y="510" font-size="11" fill="#9ca3af">JST-PH 2.0, onboard charger</text>
+
+  <rect x="30" y="425" width="120" height="80" rx="8" fill="#111827"/>
+  <text x="90" y="455" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Li-ion</text>
+  <text x="90" y="474" font-size="13" fill="#e5e7eb" text-anchor="middle">3.7 V</text>
+  <line x1="150" y1="450" x2="194" y2="450" stroke="#dc2626" stroke-width="4"/>
+  <line x1="150" y1="480" x2="194" y2="480" stroke="#111827" stroke-width="4"/>
+
+  <!-- Pin pads and labels (right side) -->
+  <g font-size="13" fill="#ffffff" text-anchor="end">
+    <rect x="424" y="114" width="12" height="12" fill="#d4a017"/><text x="414" y="125">GPIO 18</text>
+    <rect x="424" y="144" width="12" height="12" fill="#d4a017"/><text x="414" y="155">GPIO 5</text>
+    <rect x="424" y="204" width="12" height="12" fill="#d4a017"/><text x="414" y="215">GPIO 2</text>
+    <rect x="424" y="234" width="12" height="12" fill="#d4a017"/><text x="414" y="245">GPIO 15</text>
+    <rect x="424" y="294" width="12" height="12" fill="#d4a017"/><text x="414" y="305">GPIO 17</text>
+    <rect x="424" y="324" width="12" height="12" fill="#d4a017"/><text x="414" y="335">GPIO 16</text>
+    <rect x="424" y="384" width="12" height="12" fill="#d4a017"/><text x="414" y="395">GPIO 4</text>
+    <rect x="424" y="414" width="12" height="12" fill="#d4a017"/><text x="414" y="425">GPIO 0</text>
+    <rect x="424" y="474" width="12" height="12" fill="#d4a017"/><text x="414" y="485">GPIO 32</text>
+    <rect x="424" y="504" width="12" height="12" fill="#d4a017"/><text x="414" y="515">GPIO 33</text>
+    <rect x="424" y="534" width="12" height="12" fill="#d4a017"/><text x="414" y="545">GPIO 25</text>
+  </g>
+
+  <!-- Wires: signal = button colour, ground = grey -->
+  <g stroke-width="4" fill="none">
+    <line x1="436" y1="120" x2="640" y2="120" stroke="#8b1e2d"/>
+    <line x1="436" y1="150" x2="640" y2="150" stroke="#6b7280"/>
+    <line x1="436" y1="210" x2="640" y2="210" stroke="#e8432e"/>
+    <line x1="436" y1="240" x2="640" y2="240" stroke="#6b7280"/>
+    <line x1="436" y1="300" x2="640" y2="300" stroke="#f08a24"/>
+    <line x1="436" y1="330" x2="640" y2="330" stroke="#6b7280"/>
+    <line x1="436" y1="390" x2="640" y2="390" stroke="#2457c5"/>
+    <line x1="436" y1="420" x2="640" y2="420" stroke="#6b7280"/>
+    <line x1="436" y1="480" x2="640" y2="480" stroke="#dc2626"/>
+    <line x1="436" y1="510" x2="640" y2="510" stroke="#16a34a"/>
+    <line x1="436" y1="540" x2="640" y2="540" stroke="#6b7280"/>
+  </g>
+  <g font-size="11" fill="#6b7280" text-anchor="middle">
+    <text x="538" y="113">signal</text>
+    <text x="538" y="143">ground</text>
+    <text x="538" y="473">VCC (output HIGH)</text>
+    <text x="538" y="503">wiper (ADC)</text>
+    <text x="538" y="533">GND (output LOW)</text>
+  </g>
+
+  <!-- Button 1: stop -->
+  <rect x="640" y="102" width="310" height="66" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+  <circle cx="640" cy="120" r="5" fill="#111827"/><circle cx="640" cy="150" r="5" fill="#111827"/>
+  <circle cx="684" cy="135" r="22" fill="#8b1e2d"/>
+  <path d="M675 126 L693 144 M693 126 L675 144" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <text x="718" y="131" font-size="15" font-weight="bold" fill="#111827">Button 1: Stop</text>
+  <text x="718" y="150" font-size="12" fill="#4b5563">waits for the knob at zero</text>
+
+  <!-- Button 2: horn, wake -->
+  <rect x="640" y="192" width="310" height="66" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+  <circle cx="640" cy="210" r="5" fill="#111827"/><circle cx="640" cy="240" r="5" fill="#111827"/>
+  <circle cx="684" cy="225" r="22" fill="#e8432e"/>
+  <text x="684" y="235" font-size="26" fill="#ffffff" text-anchor="middle">♪</text>
+  <text x="718" y="221" font-size="15" font-weight="bold" fill="#111827">Button 2: Horn</text>
+  <rect x="718" y="230" width="150" height="20" rx="10" fill="#fde68a"/>
+  <text x="793" y="244" font-size="12" fill="#92400e" text-anchor="middle">wakes from deep sleep</text>
+
+  <!-- Button 3: light -->
+  <rect x="640" y="282" width="310" height="66" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+  <circle cx="640" cy="300" r="5" fill="#111827"/><circle cx="640" cy="330" r="5" fill="#111827"/>
+  <circle cx="684" cy="315" r="22" fill="#ffffff" stroke="#f08a24" stroke-width="2"/>
+  <circle cx="684" cy="315" r="6" fill="none" stroke="#f08a24" stroke-width="2.5"/>
+  <g stroke="#f08a24" stroke-width="2.5" stroke-linecap="round">
+    <line x1="684" y1="301" x2="684" y2="305"/><line x1="684" y1="325" x2="684" y2="329"/>
+    <line x1="670" y1="315" x2="674" y2="315"/><line x1="694" y1="315" x2="698" y2="315"/>
+    <line x1="674" y1="305" x2="677" y2="308"/><line x1="691" y1="322" x2="694" y2="325"/>
+    <line x1="694" y1="305" x2="691" y2="308"/><line x1="677" y1="322" x2="674" y2="325"/>
+  </g>
+  <text x="718" y="311" font-size="15" font-weight="bold" fill="#111827">Button 3: Light</text>
+  <text x="718" y="330" font-size="12" fill="#4b5563">next headlight colour</text>
+
+  <!-- Button 4: reserved -->
+  <rect x="640" y="372" width="310" height="66" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+  <circle cx="640" cy="390" r="5" fill="#111827"/><circle cx="640" cy="420" r="5" fill="#111827"/>
+  <circle cx="684" cy="405" r="22" fill="#2457c5"/>
+  <path d="M684 392 C679 399 675 404 675 409 A9 9 0 0 0 693 409 C693 404 689 399 684 392 Z" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="718" y="401" font-size="15" font-weight="bold" fill="#111827">Button 4: Reserved</text>
+  <text x="718" y="420" font-size="12" fill="#4b5563">no action yet</text>
+
+  <!-- Potentiometer -->
+  <rect x="640" y="462" width="310" height="96" rx="10" fill="#f9fafb" stroke="#d1d5db"/>
+  <circle cx="640" cy="480" r="5" fill="#111827"/><circle cx="640" cy="510" r="5" fill="#111827"/><circle cx="640" cy="540" r="5" fill="#111827"/>
+  <path d="M672 474 L672 482 L664 486 L680 492 L664 498 L680 504 L664 510 L680 516 L664 522 L680 528 L672 532 L672 546" fill="none" stroke="#111827" stroke-width="2"/>
+  <path d="M700 510 L686 510 M690 505 L684 510 L690 515" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="718" y="496" font-size="15" font-weight="bold" fill="#111827">Potentiometer: throttle</text>
+  <text x="718" y="515" font-size="12" fill="#4b5563">centre = stop, either side =</text>
+  <text x="718" y="531" font-size="12" fill="#4b5563">forward / reverse, 10 % steps</text>
+  <text x="718" y="547" font-size="12" fill="#4b5563">unpowered during sleep</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="604" x2="950" y2="604" stroke="#e5e7eb"/>
+  <line x1="30" y1="628" x2="62" y2="628" stroke="#e8432e" stroke-width="4"/>
+  <text x="72" y="632" font-size="13" fill="#374151">Button signal: INPUT_PULLUP, pressed = LOW</text>
+  <line x1="420" y1="628" x2="452" y2="628" stroke="#6b7280" stroke-width="4"/>
+  <text x="462" y="632" font-size="13" fill="#374151">Button ground: a GPIO driven LOW, no shared GND wire needed</text>
+  <text x="30" y="660" font-size="13" fill="#374151">Button 2 is the only wake button: both of its pins (2 and 15) are RTC GPIOs and stay configured in deep sleep.</text>
+  <text x="30" y="680" font-size="13" fill="#374151">GPIO 0, 2 and 15 are strapping pins: do not hold buttons 2 or 4 while powering on. GPIO 13 is left free.</text>
+</svg>
